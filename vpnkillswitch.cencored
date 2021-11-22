@@ -1,0 +1,11 @@
+#!/bin/sh
+
+IP=$(curl -4 https://icanhazip.com)
+TRANSMISSION=$(pidof transmission-daemon)
+if [ "$IP" != "xxx.xxx.xx.xx" ]; then
+exit 0
+else
+    wg-quick up mlvd-se7 && exit 0
+    kill "$TRANSMISSION"
+    ssh urahata@xxx.xxx.x.xxx -p xxxx 'DISPLAY=:0 zenity --info --text="Restart vpn"'
+fi

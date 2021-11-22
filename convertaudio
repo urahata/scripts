@@ -1,0 +1,45 @@
+#!/bin/sh
+
+function usage() {
+    echo "Usage: $0 [-hmw]" 2>&1
+    echo '      -h  HELP'
+    echo '      -m  Convert mp4'
+    echo '      -w  Convert webm'
+    exit 1
+}
+if [[ ${#} -eq 0 ]]; then
+    usage
+fi
+
+OPTSTRING=":hmw"
+
+while getopts ${OPTSTRING} arg; do
+    case "${arg}" in
+        h)
+            usage ;;
+        m)
+            for FILE in *.mp4; do
+                if [ -f "${FILE/%mp4/mov}" ]; then
+                    continue
+                fi
+                ffmpeg -i "$FILE" "/tmp/${FILE/%mp4/wav}"
+                ffmpeg -i "$FILE" -vcodec copy -an -bsf:v h264_mp4toannexb "/tmp/${FILE/%mp4/m4v}"
+                ffmpeg -i "/tmp/${FILE/%mp4/m4v}" -i "/tmp/${FILE/%mp4/wav}" -acodec copy -vcodec copy "${FILE/%mp4/mov}"
+                rm "/tmp/${FILE/%mp4/wav}"
+                rm "/tmp/${FILE/%mp4/m4v}"
+            done;;
+        w)
+            for FILE in *.webm; do
+                if [ -f "/bigdrive/webm/converted/${FILE/%webm/mov}" ]; then
+                    continue
+                fi
+                ffmpeg -i "$FILE" "/tmp/${FILE/%webm/wav}"
+                ffmpeg -i "$FILE" -an -vcodec libx264 "/tmp/${FILE/%webm/m4v}"
+                ffmpeg -i "/tmp/${FILE/%webm/m4v}" -i "/tmp/${FILE/%webm/wav}" -acodec copy -vcodec copy "/bigdrive/webm/converted/${FILE/%webm/mov}"
+                rm "/tmp/${FILE/%webm/wav}"
+                rm "/tmp/${FILE/%webm/m4v}"
+            done;;
+        ?)
+            usage;;
+    esac
+done

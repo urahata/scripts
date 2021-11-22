@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [ $# -lt 3 ]; then
+	echo "Usage:$0 <audio> <image> <output>(auto file extension)"
+	exit 1
+fi
+ffmpeg -i "$1" -loop 1 -i "$2" -c:v libvpx-vp9 -b:v 0 -crf 30  -c:a libopus -b:a 192k -vf fps=1 -shortest -map_metadata 0 "$3".webm
+

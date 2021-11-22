@@ -1,0 +1,7 @@
+#!/bin/sh
+
+for ((i=$1*60;i>=0;i--)); do
+    echo -ne "\r$(date -d"0+$i sec" +%H:%M:%S)"
+    sleep 1
+done
+printf "\n$2"

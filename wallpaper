@@ -1,0 +1,23 @@
+#!/bin/sh
+export DISPLAY=":0.0"
+
+WALLPAPER=(/bigdrive/pics/Wallpaper/676624.png
+           /bigdrive/pics/Wallpaper/678581.jpg
+           /bigdrive/pics/Wallpaper/761888.png
+           /bigdrive/pics/Wallpaper/1613149112206.png
+           /bigdrive/pics/Wallpaper/1613149442353.jpg
+           /bigdrive/pics/Wallpaper/1615145534570.png
+           /bigdrive/pics/Wallpaper/1615795759654.jpg
+           /bigdrive/pics/Wallpaper/1620948703426.jpg
+           /bigdrive/pics/Wallpaper/1622218670862.jpg
+           /bigdrive/pics/Wallpaper/1623698764807.png
+           /bigdrive/pics/Wallpaper/1629809125947.png
+           /bigdrive/pics/Wallpaper/wallhaven-md7wy9.png
+           /bigdrive/pics/Wallpaper/wallhaven-vg6qel.jpg
+           /bigdrive/pics/Wallpaper/wallhaven-dpgrqo.jpg
+           /bigdrive/pics/Wallpaper/wallhaven-j39v3p.jpg
+          )
+feh --bg-scale ${WALLPAPER[$(( $RANDOM % 15 ))]}
+
+
+#echo ${#WALLPAPER[@]}
