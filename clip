@@ -2,7 +2,10 @@
 
 #Function test
 usage () {
-   echo "$0 <link> <from> <to> <output>"
+   echo "$0 <link> <from> <to> <output> [-s|-r]"
+   echo "_______________________________optional_________"
+   echo "      -s | --save          save original video"
+   echo "      -r | --remove        delete original video"
    exit 1
 }
 
@@ -21,4 +24,17 @@ TO=$(date -u "+%T.%2N" -d @"$3")
 yt-dlp "$1" --downloader aria2c -o "$TMPFILE"
 ffmpeg -i "$TMPFILE" -ss "$FROM" -to "$TO" "$CLIP"
 mv "$CLIP" "$PWD/$4"
-herbe "Save source video?" && mv "$TMPFILE" "$PWD/$FILENAME.webm"
+#herbe "Save source video?" && mv "$TMPFILE" "$PWD/$FILENAME.webm"
+while [[ $# > 0 ]]; do
+   case "$1" in
+      -s|--save)
+         mv "$TMPFILE" "$PWD/$FILENAME.webm"
+         echo "\nSaved to $PWD/$FILENAME.webm"
+         exit 0 ;;
+      -r|--remove)
+         rm "$TMPFILE"
+         echo "\nRemoved $TMPFILE"
+         exit 0 ;;
+   esac
+   shift
+done
