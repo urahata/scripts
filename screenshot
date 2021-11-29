@@ -1,4 +1,6 @@
 #!/bin/sh
+trap 'jobs -p | xargs -r kill' EXIT
+
 PIC="$HOME/Pictures/$(date +"%m-%d-%y_%H-%M-%S").png"
 scrot -l style=dash,width=3,color="cyan" -s -f "$PIC" -e 'xclip -sel clipboard -t image/png -i $f'
 
