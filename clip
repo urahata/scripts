@@ -23,11 +23,12 @@ CLIP="/tmp/$4"
 FROM=$(date -u "+%T.%2N" -d @"$2")
 TO=$(date -u "+%T.%2N" -d @"$3")
 yt-dlp "$1" --downloader aria2c -o "$TMPFILE"
-ffmpeg -i "$TMPFILE" -ss "$FROM" -to "$TO" "$CLIP"
+ffmpeg -v warning -hide_banner -stats_period 5 \
+   -i "$TMPFILE" -ss "$FROM" -to "$TO" "$CLIP"
 mv "$CLIP" "$PWD/$4"
 #herbe "Save source video?" && mv "$TMPFILE" "$PWD/$FILENAME.webm"
-while [[ $# > 0 ]]; do
-   case "$1" in
+while [[ $# -gt 4 ]]; do
+   case "$5" in
       -s|--save)
          mv "$TMPFILE" "$PWD/$FILENAME.webm"
          echo "\nSaved to $PWD/$FILENAME.webm"
@@ -36,6 +37,8 @@ while [[ $# > 0 ]]; do
          rm "$TMPFILE"
          echo "\nRemoved $TMPFILE"
          exit 0 ;;
+      *)
+      echo "\nUse '-r' to remove source or '-s' to send it to current directory."
+      exit 1 ;;
    esac
-   shift
 done
