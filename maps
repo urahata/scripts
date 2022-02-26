@@ -1,0 +1,14 @@
+#!/bin/zsh
+
+cd /bigdrive/Games/Osu/Songs
+for MAP in *.osz;
+do
+    if [ -d ${MAP%.osz} ];
+    then
+        rm $MAP
+        continue
+    fi
+
+    7z x $MAP -o${MAP%.osz}
+    rm $MAP
+done

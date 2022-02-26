@@ -5,7 +5,7 @@ PIC="$HOME/Pictures/$(date +"%m-%d-%y_%H-%M-%S").png"
 scrot -l style=dash,width=3,color="cyan" -s -f "$PIC" -e 'xclip -sel clipboard -t image/png -i $f'
 
 if [ "$1" = "-u" ]; then
-	UPLOAD=$(pyupload --host=catbox "$PIC")
+	UPLOAD=$(catbox file "$PIC")
 	echo "$UPLOAD" | grep -o "\<https.\+png$" | xclip -sel clipboard
 	LINK=$(xclip -sel clipboard -o)
 	herbe "Open screenshot" && xdg-open "$LINK"
